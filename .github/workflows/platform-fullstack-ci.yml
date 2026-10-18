@@ -330,7 +330,7 @@ jobs:
         wait: [buildkit-image]
 
       - name: Set up Platform - Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         with:
           # The runner is thrown away; removing the builder only costs ~30 s.
           cleanup: false
