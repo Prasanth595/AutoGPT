@@ -83,7 +83,7 @@ jobs:
           curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 -
 
       - name: Set up Backend - Set up dependency cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pypoetry
           key: poetry-${{ runner.os }}-${{ hashFiles('autogpt_platform/backend/poetry.lock') }}
@@ -233,7 +233,7 @@ jobs:
       - name: Set up tests - Cache E2E test data
         id: e2e-data-cache
         if: matrix.seed
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: /tmp/e2e_test_data.sql
           # Hash checkout inputs before fresh secrets and resolved Compose exist.
@@ -343,7 +343,7 @@ jobs:
       # mount. A fresh builder starts empty, so seed the mount from the last run.
       - name: Set up Platform - Restore Next.js build cache
         id: next-build-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: /tmp/next-build-cache
           # Next.js drops the whole cache when next.config.mjs or its dependencies change
@@ -409,7 +409,7 @@ jobs:
 
       - name: Set up tests - Cache Playwright browsers
         if: matrix.suite == 'smoke'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('autogpt_platform/frontend/pnpm-lock.yaml') }}
@@ -418,7 +418,7 @@ jobs:
 
       - name: Set up tests - Restore Playwright browsers
         if: matrix.suite != 'smoke'
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('autogpt_platform/frontend/pnpm-lock.yaml') }}
@@ -617,7 +617,7 @@ jobs:
       - name: Save Next.js build cache
         if: ${{ !cancelled() && matrix.suite == 'smoke' && steps.next-build-cache-export.outcome == 'success' }}
         continue-on-error: true
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: /tmp/next-build-cache
           key: ${{ steps.next-build-cache.outputs.cache-primary-key }}
